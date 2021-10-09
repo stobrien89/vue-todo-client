@@ -3,6 +3,8 @@
     <h1>{{ post.subject }}</h1>
     <h2>{{ post.details }}</h2>
     <router-link to="/"><button>Back to Main</button></router-link>
+    <router-link :to="{name: 'edit', params: {id: post.id}}"
+      ><button>Edit Todo</button></router-link
   </div>
 </template>
 
