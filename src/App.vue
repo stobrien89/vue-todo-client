@@ -1,26 +1,49 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <h1>Our Todos</h1>
+    <router-view :posts="posts" :url="url" :getPosts="getPosts" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted } from "vue"; // Import Composition API Hooks
+// ref hook allows use to create reactive variables
+// onMounted let's us execute code when component mounts
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  // Setup property allows us to use new composition api to define properties/methods
+  // Returns an object with any properties/methods the component should have
+  setup(props) {
+    // variable with base url for API calls
+    const url = "https://api.herokuapp.com/todos/";
+    // ref for holding all the posts
+    const posts = ref([]);
+    // method for getting posts
+    const getPosts = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        posts.value = await data;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    //run getPosts once when component loads
+    onMounted(() => getPosts());
+    // return component properties and methods
+    return {
+      posts,
+      getPosts,
+      url,
+      ...props,
+    };
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.app {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
