@@ -16,7 +16,7 @@ export default {
   // Returns an object with any properties/methods the component should have
   setup(props) {
     // variable with base url for API calls
-    const url = "https://api.herokuapp.com/todos/";
+    const url = "http://localhost:8000/todos/";
     // ref for holding all the posts
     const posts = ref([]);
     // method for getting posts
